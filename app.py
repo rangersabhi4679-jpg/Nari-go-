@@ -1,50 +1,84 @@
 import streamlit as st
-from datetime import datetime
 
-st.set_page_config(page_title="NARI GO", page_icon="🚗", layout="centered")
+st.set_page_config(
+    page_title="NARI GO",
+    page_icon="🚗",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
 
-st.title("NARI GO")
-st.subheader("Women-only cab service MVP")
+st.markdown(
+    """
+    <style>
+    .main {
+        background: linear-gradient(135deg, #fff7fb 0%, #ffffff 100%);
+    }
+    .hero {
+        padding: 24px;
+        border-radius: 20px;
+        background: white;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        border: 1px solid #f2d7e7;
+        margin-bottom: 20px;
+    }
+    .title {
+        font-size: 44px;
+        font-weight: 800;
+        color: #d63384;
+        margin-bottom: 6px;
+    }
+    .subtitle {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 14px;
+    }
+    .card {
+        padding: 18px;
+        border-radius: 18px;
+        background: white;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+        border: 1px solid #f0f0f0;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-menu = st.sidebar.radio("Menu", ["Book Ride", "Driver Panel", "Admin Panel"])
+st.markdown('<div class="hero">', unsafe_allow_html=True)
+st.markdown('<div class="title">NARI GO</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Safe women-only cab service</div>', unsafe_allow_html=True)
+st.markdown("Book a ride in seconds with a simple, clean, and trusted experience.")
+st.markdown('</div>', unsafe_allow_html=True)
 
-if menu == "Book Ride":
-    st.header("Book a Ride")
-    name = st.text_input("Your name")
-    phone = st.text_input("Phone number")
-    pickup = st.text_input("Pickup location")
-    drop = st.text_input("Drop location")
-    ride_time = st.selectbox("When do you want the ride?", ["Now", "Schedule later"])
-    notes = st.text_area("Notes for driver (optional)")
+col1, col2 = st.columns([1.2, 1])
 
-    if st.button("Request Ride"):
-        if name and phone and pickup and drop:
+with col1:
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("Request Ride")
+    with st.form("ride_form"):
+        customer_name = st.text_input("Customer Name")
+        phone_no = st.text_input("Phone No")
+        pickup_location = st.text_input("Pickup Location")
+        drop_location = st.text_input("Drop Location")
+        submit = st.form_submit_button("Request Ride")
+
+    if submit:
+        if customer_name and phone_no and pickup_location and drop_location:
             st.success("Ride requested successfully!")
-            st.info("Matched with a verified women driver.")
-            st.write("**Pickup:**", pickup)
-            st.write("**Drop:**", drop)
-            st.write("**Time:**", ride_time)
-            st.write("**Request ID:**", f"NG-{datetime.now().strftime('%Y%m%d%H%M%S')}")
+            st.write("**Customer Name:**", customer_name)
+            st.write("**Phone No:**", phone_no)
+            st.write("**Pickup Location:**", pickup_location)
+            st.write("**Drop Location:**", drop_location)
         else:
-            st.error("Please fill all required fields.")
+            st.error("Please fill all fields.")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-elif menu == "Driver Panel":
-    st.header("Driver Panel")
-    driver_name = st.text_input("Driver name")
-    driver_phone = st.text_input("Driver phone")
-    car_number = st.text_input("Car number")
-    city = st.text_input("City")
-    verified = st.checkbox("Verified women driver")
-
-    if st.button("Save Driver Profile"):
-        if driver_name and driver_phone and car_number and city and verified:
-            st.success("Driver profile saved and marked verified.")
-        else:
-            st.warning("Complete all details and verify the driver.")
-
-else:
-    st.header("Admin Panel")
-    st.write("Total rides today: 0")
-    st.write("Verified drivers: 0")
-    st.write("Incidents reported: 0")
-    st.button("Refresh dashboard")
+with col2:
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("Why NARI GO")
+    st.write("✅ Women-only verified drivers")
+    st.write("✅ Simple booking flow")
+    st.write("✅ Easy to use on mobile")
+    st.write("✅ Safe ride experience")
+    st.info("Logo ko baad me image file ke through add kar sakte ho.")
+    st.markdown('</div>', unsafe_allow_html=True)
